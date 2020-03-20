@@ -1,0 +1,10 @@
+.sidenav {
+  border-right: 1px solid black;
+
+  &__sticky {
+    height: calc(100vh - 56px);
+  }
+  .nav-item {
+    padding: 5px;
+  }
+}
