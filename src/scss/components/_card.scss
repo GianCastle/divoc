@@ -3,7 +3,15 @@
   color: white;
   &-title {
     font-size: 22px;
+    font-weight: bold;
     line-height: 1.15;
-    letter-spacing: 3px;
+
+    letter-spacing: 2px;
+  }
+  &-content {
+    font-size: 1.0625rem;
+  }
+
+  &-row {
   }
 }

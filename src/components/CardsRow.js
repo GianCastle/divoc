@@ -4,11 +4,15 @@ import { omit } from 'ramda'
 import useFetch from 'use-http'
 
 const StatsCard = ({ title = '', content = '' }) => (
-  <Col md={4} sm={12}>
-    <Card body>
-      <CardTitle>{title}</CardTitle>
-      <CardText className="text-uppercase font-weigth-bold">{content}</CardText>
-    </Card>
+  <Col md={4} sm={12} className="pr-0 card-row">
+    <div className="card-row">
+      <Card body>
+        <CardTitle>{title}</CardTitle>
+        <CardText className="font-weigth-bold text-primary text-capitalize">
+          {content}
+        </CardText>
+      </Card>
+    </div>
   </Col>
 )
 
