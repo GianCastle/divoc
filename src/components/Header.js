@@ -18,7 +18,7 @@ export const Header = props => {
 
   return (
     <>
-      <Navbar color="dark" expand="md">
+      <Navbar expand="md" className="header">
         <NavbarBrand href="/">Vidoc</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

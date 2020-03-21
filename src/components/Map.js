@@ -3,15 +3,14 @@ import GoogleMapReact from 'google-map-react'
 
 import { Row, Col } from 'reactstrap'
 
-import Icon from '@mdi/react'
-import { mdiAlert } from '@mdi/js'
 import { mapStyles } from '../config/mapStyles'
 
 import useFetch from 'use-http'
 
 const CustomMarker = ({ text }) => (
-  <div>
-    <span style={{ color: 'white' }}>{text}</span>
+  <div className="align-items-center justify-content-center">
+    {/* <Icon path={mdiAlert} color="white" size={0.8} horizontal /> */}
+    <span style={{ color: 'white', textAlign: 'center' }}>{text} casos</span>
   </div>
 )
 
@@ -32,34 +31,38 @@ export const Map = () => {
   })
 
   return (
-    <Row className="">
-      <Col sm={12} className="px-0 mt-2">
-        <div className="map">
-          <GoogleMapReact
-            yesIWantToUseGoogleMapApiInternals
-            bootstrapURLKeys={{
-              key: 'AIzaSyDuq_-5Mef7JsmIrL2d1vGo7YKwhfYD0dk'
-            }}
-            defaultZoom={5}
-            defaultCenter={{ lat: 18.483402, lng: -69.929611 }}
-            options={{
-              scrollwheel: false,
-              streetViewControl: false,
-              styles: mapStyles
-            }}
-          >
-            {marks.map(({ country, province, stats, coordinates }) => {
-              return (
-                <CustomMarker
-                  text={`${stats.confirmed}`}
-                  lat={coordinates.latitude}
-                  lng={coordinates.longitude}
-                />
-              )
-            })}
-          </GoogleMapReact>
-        </div>
-      </Col>
-    </Row>
+    <Col sm={8}>
+      <Row className="">
+        <Col sm={12} className="px-0 mt-2">
+          <div className="map">
+            <GoogleMapReact
+              yesIWantToUseGoogleMapApiInternals
+              bootstrapURLKeys={{
+                key: 'AIzaSyDuq_-5Mef7JsmIrL2d1vGo7YKwhfYD0dk'
+              }}
+              defaultZoom={8}
+              defaultCenter={{ lat: 18.483402, lng: -69.929611 }}
+              options={{
+                scrollwheel: false,
+                streetViewControl: false,
+                styles: mapStyles
+              }}
+            >
+              {marks.map(({ country, province, stats, coordinates }) => {
+                if (isNaN(coordinates.latitude) || isNaN(coordinates.longitude))
+                  return undefined
+                return (
+                  <CustomMarker
+                    text={`${stats.confirmed}`}
+                    lat={coordinates.latitude}
+                    lng={coordinates.longitude}
+                  />
+                )
+              })}
+            </GoogleMapReact>
+          </div>
+        </Col>
+      </Row>
+    </Col>
   )
 }

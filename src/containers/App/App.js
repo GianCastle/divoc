@@ -8,7 +8,7 @@ import { Container, Row, Col, Spinner } from 'reactstrap'
 import { Map } from '../../components/Map'
 
 const Box = ({ children }) => (
-  <Col md={10} sm={12}>
+  <Col md={11} sm={12}>
     {children}
   </Col>
 )

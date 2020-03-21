@@ -3,10 +3,10 @@ import { NavItem, Col } from 'reactstrap'
 
 export const SideNav = props => {
   return (
-    <Col md={2} className=" pt-4 d-none d-md-block bg-light sidenav">
+    <Col md={1} className="pt-4 d-none d-md-block  sidenav">
       <div className="sidenav__sticky">
         <ul className="nav flex-column">
-          <NavItem>Worldwide</NavItem>
+          <NavItem href="#worldwide">Worldwide</NavItem>
         </ul>
         <ul className="nav flex-column">
           <NavItem>Countries</NavItem>

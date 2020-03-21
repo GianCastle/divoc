@@ -1,0 +1,9 @@
+.card {
+  background-color: #222437;
+  color: white;
+  &-title {
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: 3px;
+  }
+}

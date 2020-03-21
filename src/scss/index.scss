@@ -1,2 +1,7 @@
-@import './components/sidenav';
+@import './variables';
+
+@import './components/app';
 @import './components/map';
+@import './components/header';
+@import './components/sidenav';
+@import './components/card';
