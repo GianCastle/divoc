@@ -36,7 +36,6 @@ export const Map = () => {
 
   return (
     <Col sm={12} md={8} className="mt-3">
-      <h4>Corona Map</h4>
       <Row>
         <div className="map">
           <GoogleMapReact
@@ -52,11 +51,12 @@ export const Map = () => {
               styles: mapStyles
             }}
           >
-            {marks.map(({ country, province, stats, coordinates }) => {
+            {marks.map(({ country, province, stats, coordinates }, i) => {
               if (isNaN(coordinates.latitude) || isNaN(coordinates.longitude))
                 return undefined
               return (
                 <CustomMarker
+                  key={i}
                   text={`${stats.confirmed}`}
                   lat={coordinates.latitude}
                   lng={coordinates.longitude}
