@@ -47,6 +47,5 @@ export const getLocations = () => async dispatch => {
     dispatch(getStatsFailure(err.toString()))
   }
 }
-export const statsSelector = state => state
 
 export default stats.reducer

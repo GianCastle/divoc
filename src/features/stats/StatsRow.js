@@ -1,39 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { CardTitle, CardText, Card, Col, Row } from 'reactstrap'
+import React from 'react'
+
+import { Row } from 'reactstrap'
+import { StatsCard } from './StatsCard'
+
 import { useSelector, useDispatch } from 'react-redux'
 
-import { statsSelector, getLocations } from './statsSlice'
-import { fetchCovid } from '../../api/coronaApi'
-
-const StatsCard = ({ title = '', content = '' }) => (
-  <Col md={4} sm={12} className="pr-0 card-row">
-    <div className="card-row">
-      <Card body>
-        <CardTitle>{title}</CardTitle>
-        <CardText className="font-weigth-bold text-primary text-capitalize">
-          {content}
-        </CardText>
-      </Card>
-    </div>
-  </Col>
-)
+import { getLocations } from './statsSlice'
+import { getGlobalStats } from './statsSelectors'
+import { useDidMount } from '../../hooks/useDidMount'
 
 export const StatsRow = () => {
   const dispatch = useDispatch()
+  const stats = useSelector(getGlobalStats)
+  const dispatcher = () => dispatch(getLocations())
 
-  const state = useSelector(state => {
-    return state.stats
-  })
+  useDidMount(dispatcher)
 
-  console.log(state)
-  useEffect(() => {
-    dispatch(getLocations())
-  }, [])
-  // console.log(stats)
-  return 'uf'
-  // <Row className="pt-3 pt-3">
-  //   {Object.keys(stats).map((k, i) => (
-  //     <StatsCard key={i} title={stats[k].toLocaleString()} content={k} />
-  //   ))}
-  // </Row>
+  return (
+    <Row className="pt-3 pb-3">
+      {Object.keys(stats).map((k, i) => (
+        <StatsCard key={i} title={stats[k]} content={k} />
+      ))}
+    </Row>
+  )
 }
