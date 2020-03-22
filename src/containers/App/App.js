@@ -14,13 +14,16 @@ const Box = ({ children }) => (
 )
 
 function App() {
+  const options = {
+    suspense: true,
+    retries: 3
+  }
   return (
-    <Provider url="https://corona.lmao.ninja" retries={3}>
+    <Provider url="https://corona.lmao.ninja" options={options}>
       <div className="App">
         <Header />
         <Container fluid>
           <Row>
-            <SideNav />
             <Box>
               <Suspense fallback={<Spinner type="grow" color="primary" />}>
                 <CardsRow />
