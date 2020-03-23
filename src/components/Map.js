@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
+
 import GoogleMapReact from 'google-map-react'
 
 import { Row, Col } from 'reactstrap'
 
 import { mapStyles } from '../config/mapStyles'
-
-import useFetch from 'use-http'
+import { getMarkersCoords } from '../features/stats/statsSelectors'
 
 const CustomMarker = ({ text }) => {
   return (
@@ -19,21 +20,9 @@ const CustomMarker = ({ text }) => {
 }
 
 export const Map = () => {
-  const [marks, setMarks] = useState([])
-  const { get, response } = useFetch({ data: [], suspense: true })
-  const mounted = useRef(false)
+  const marks = useSelector(getMarkersCoords)
 
-  const fetchData = async () => {
-    const countryMarkers = await get('/jhucsse')
-    response.ok ? setMarks(countryMarkers) : console.error(response)
-  }
-
-  useEffect(() => {
-    if (mounted.current) return
-    mounted.current = true
-    fetchData()
-  })
-
+  console.log(marks)
   return (
     <Col sm={12} md={8} className="mt-3">
       <Row>
@@ -51,7 +40,7 @@ export const Map = () => {
               styles: mapStyles
             }}
           >
-            {marks.map(({ country, province, stats, coordinates }, i) => {
+            {marks.map(({ stats, coordinates }, i) => {
               if (isNaN(coordinates.latitude) || isNaN(coordinates.longitude))
                 return undefined
               return (
