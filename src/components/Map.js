@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useMemo } from 'react'
+import { useSelector } from 'react-redux'
+
 import GoogleMapReact from 'google-map-react'
+import { getMarkersCoords } from '../features/stats/statsSelectors'
 
 import { Row, Col } from 'reactstrap'
-
 import { mapStyles } from '../config/mapStyles'
+import { mdiCircle } from '@mdi/js'
+import { Icon } from '@mdi/react'
 
-import useFetch from 'use-http'
-
-const CustomMarker = ({ text }) => {
+const CustomMarker = ({ text, severityColor }) => {
   return (
     <div className="align-items-center justify-content-center">
-      {/* <Icon path={mdiAlert} color="white" size={0.8} horizontal /> */}
+      <Icon path={mdiCircle} color={severityColor} size={0.5} horizontal />
       <span style={{ color: 'white', textAlign: 'center' }}>
         {`${text} ${Number(text) > 1 ? 'cases' : 'case'}`}
       </span>
@@ -19,21 +21,9 @@ const CustomMarker = ({ text }) => {
 }
 
 export const Map = () => {
-  const [marks, setMarks] = useState([])
-  const { get, response } = useFetch({ data: [], suspense: true })
-  const mounted = useRef(false)
+  const marks = useSelector(getMarkersCoords)
 
-  const fetchData = async () => {
-    const countryMarkers = await get('/jhucsse')
-    response.ok ? setMarks(countryMarkers) : console.error(response)
-  }
-
-  useEffect(() => {
-    if (mounted.current) return
-    mounted.current = true
-    fetchData()
-  })
-
+  console.log(marks)
   return (
     <Col sm={12} md={8} className="mt-3">
       <Row>
@@ -43,7 +33,7 @@ export const Map = () => {
             bootstrapURLKeys={{
               key: 'AIzaSyDuq_-5Mef7JsmIrL2d1vGo7YKwhfYD0dk'
             }}
-            defaultZoom={8}
+            defaultZoom={1}
             defaultCenter={{ lat: 18.483402, lng: -69.929611 }}
             options={{
               scrollwheel: false,
@@ -51,18 +41,15 @@ export const Map = () => {
               styles: mapStyles
             }}
           >
-            {marks.map(({ country, province, stats, coordinates }, i) => {
-              if (isNaN(coordinates.latitude) || isNaN(coordinates.longitude))
-                return undefined
-              return (
-                <CustomMarker
-                  key={i}
-                  text={`${stats.confirmed}`}
-                  lat={coordinates.latitude}
-                  lng={coordinates.longitude}
-                />
-              )
-            })}
+            {marks.map(({ stats, coordinates, severityColor }, i) => (
+              <CustomMarker
+                key={i}
+                text={`${stats.confirmed}`}
+                lat={coordinates.latitude}
+                lng={coordinates.longitude}
+                severityColor={severityColor}
+              />
+            ))}
           </GoogleMapReact>
         </div>
       </Row>

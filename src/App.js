@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Header } from './components/Header'
 import { Container, Row, Col, Spinner } from 'reactstrap'
-// import { Map } from './components/Map'
+import { Map } from './components/Map'
 import { StatsRow } from './features/stats/StatsRow'
 
 const Box = ({ children }) => (
@@ -19,6 +19,7 @@ function App() {
         <Row>
           <Box>
             <StatsRow />
+            <Map />
           </Box>
         </Row>
       </Container>

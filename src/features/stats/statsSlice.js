@@ -23,7 +23,6 @@ export const stats = createSlice({
   reducers: {
     getStatsLoading: startLoading,
     getLocationsSuccess: (state, { payload }) => {
-      console.log(payload)
       state.locations = payload
       state.isLoading = false
       state.error = false
