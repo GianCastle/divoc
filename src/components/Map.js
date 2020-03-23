@@ -9,12 +9,12 @@ import { mapStyles } from '../config/mapStyles'
 import { mdiCircle } from '@mdi/js'
 import { Icon } from '@mdi/react'
 
-const CustomMarker = ({ text, severityColor }) => {
+const CustomMarker = ({ text, severityColor, flag }) => {
   return (
     <div className="align-items-center justify-content-center">
-      <Icon path={mdiCircle} color={severityColor} size={0.5} horizontal />
-      <span style={{ color: 'white', textAlign: 'center' }}>
-        {`${text} ${Number(text) > 1 ? 'cases' : 'case'}`}
+      <img src={flag} alt="test" style={{ height: '10px' }} />
+      <span style={{ color: 'white', textAlign: 'center', fontSize: '6px' }}>
+        {text}
       </span>
     </div>
   )
@@ -22,8 +22,6 @@ const CustomMarker = ({ text, severityColor }) => {
 
 export const Map = () => {
   const marks = useSelector(getMarkersCoords)
-
-  console.log(marks)
   return (
     <Col sm={12} md={8} className="mt-3">
       <Row>
@@ -41,15 +39,21 @@ export const Map = () => {
               styles: mapStyles
             }}
           >
-            {marks.map(({ stats, coordinates, severityColor }, i) => (
-              <CustomMarker
-                key={i}
-                text={`${stats.confirmed}`}
-                lat={coordinates.latitude}
-                lng={coordinates.longitude}
-                severityColor={severityColor}
-              />
-            ))}
+            {marks.map(
+              (
+                { active, countryInfo: { lat, long, flag }, severityColor },
+                i
+              ) => (
+                <CustomMarker
+                  key={i}
+                  text={`${active}`}
+                  lat={lat}
+                  lng={long}
+                  severityColor={severityColor}
+                  flag={flag}
+                />
+              )
+            )}
           </GoogleMapReact>
         </div>
       </Row>
