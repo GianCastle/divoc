@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import GoogleMapReact from 'google-map-react'
-
-import { Row, Col } from 'reactstrap'
-
-import { mapStyles } from '../config/mapStyles'
 import { getMarkersCoords } from '../features/stats/statsSelectors'
 
-const CustomMarker = ({ text }) => {
+import { Row, Col } from 'reactstrap'
+import { mapStyles } from '../config/mapStyles'
+import { mdiCircle } from '@mdi/js'
+import { Icon } from '@mdi/react'
+
+const CustomMarker = ({ text, severityColor }) => {
   return (
     <div className="align-items-center justify-content-center">
-      {/* <Icon path={mdiAlert} color="white" size={0.8} horizontal /> */}
+      <Icon path={mdiCircle} color={severityColor} size={0.5} horizontal />
       <span style={{ color: 'white', textAlign: 'center' }}>
         {`${text} ${Number(text) > 1 ? 'cases' : 'case'}`}
       </span>
@@ -32,7 +33,7 @@ export const Map = () => {
             bootstrapURLKeys={{
               key: 'AIzaSyDuq_-5Mef7JsmIrL2d1vGo7YKwhfYD0dk'
             }}
-            defaultZoom={8}
+            defaultZoom={1}
             defaultCenter={{ lat: 18.483402, lng: -69.929611 }}
             options={{
               scrollwheel: false,
@@ -40,18 +41,15 @@ export const Map = () => {
               styles: mapStyles
             }}
           >
-            {marks.map(({ stats, coordinates }, i) => {
-              if (isNaN(coordinates.latitude) || isNaN(coordinates.longitude))
-                return undefined
-              return (
-                <CustomMarker
-                  key={i}
-                  text={`${stats.confirmed}`}
-                  lat={coordinates.latitude}
-                  lng={coordinates.longitude}
-                />
-              )
-            })}
+            {marks.map(({ stats, coordinates, severityColor }, i) => (
+              <CustomMarker
+                key={i}
+                text={`${stats.confirmed}`}
+                lat={coordinates.latitude}
+                lng={coordinates.longitude}
+                severityColor={severityColor}
+              />
+            ))}
           </GoogleMapReact>
         </div>
       </Row>
