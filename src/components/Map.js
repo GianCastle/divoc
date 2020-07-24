@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 import GoogleMapReact from 'google-map-react'
@@ -6,19 +6,15 @@ import { getMarkersCoords } from '../features/stats/statsSelectors'
 
 import { Row, Col } from 'reactstrap'
 import { mapStyles } from '../config/mapStyles'
-import { mdiCircle } from '@mdi/js'
-import { Icon } from '@mdi/react'
 
-const CustomMarker = ({ text, severityColor, flag }) => {
-  return (
-    <div className="align-items-center justify-content-center">
-      <img src={flag} alt="test" style={{ height: '10px' }} />
-      <span style={{ color: 'white', textAlign: 'center', fontSize: '6px' }}>
-        {text}
-      </span>
-    </div>
-  )
-}
+const CustomMarker = ({ text, flag }) => (
+  <div className="align-items-center justify-content-center">
+    <img src={flag} alt="test" style={{ height: '10px' }} />
+    <span style={{ color: 'white', textAlign: 'center', fontSize: '6px' }}>
+      {text}
+    </span>
+  </div>
+)
 
 export const Map = () => {
   const marks = useSelector(getMarkersCoords)
